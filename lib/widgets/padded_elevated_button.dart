@@ -11,11 +11,13 @@ class PaddedElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-        child: ElevatedButton(
-          onPressed: onPressed,
-          child: Text(buttonText),
-        ),
-      );
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Text(buttonText),
+      ),
+    );
+  }
 }

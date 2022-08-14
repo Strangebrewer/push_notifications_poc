@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SecondPage extends StatefulWidget {
+  static const String routeName = '/secondPage';
+
   const SecondPage(
     this.payload, {
     Key? key,
   }) : super(key: key);
-
-  static const String routeName = '/secondPage';
 
   final String? payload;
 
@@ -24,17 +24,19 @@ class SecondPageState extends State<SecondPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('Second Screen with payload: ${_payload ?? ''}'),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Second Screen with payload: ${_payload ?? ''}'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Go back!'),
         ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Go back!'),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }

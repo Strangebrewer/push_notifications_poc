@@ -41,7 +41,9 @@ void main() async {
           Platform.isLinux
       ? null
       : await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
   String initialRoute = MyHomePage.routeName;
+
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
     selectedNotificationPayload = notificationAppLaunchDetails!.payload;
     initialRoute = SecondPage.routeName;
@@ -54,23 +56,27 @@ void main() async {
     android: initializationSettingsAndroid,
   );
 
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-    selectedNotificationPayload = payload;
-    selectNotificationSubject.add(payload);
-  });
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+      }
+      selectedNotificationPayload = payload;
+      selectNotificationSubject.add(payload);
+    },
+  );
 
   runApp(
     MaterialApp(
       initialRoute: initialRoute,
       routes: <String, WidgetBuilder>{
-        MyHomePage.routeName: (_) => MyHomePage(
-              title: 'Doh!',
-              notificationAppLaunchDetails: notificationAppLaunchDetails,
-            ),
+        MyHomePage.routeName: (_) {
+          return MyHomePage(
+            title: 'Doh!',
+            notificationAppLaunchDetails: notificationAppLaunchDetails,
+          );
+        },
         SecondPage.routeName: (_) => SecondPage(selectedNotificationPayload),
       },
     ),
@@ -78,13 +84,13 @@ void main() async {
 }
 
 class MyHomePage extends StatefulWidget {
+  static const String routeName = '/';
+
   const MyHomePage({
     Key? key,
     required this.title,
     required this.notificationAppLaunchDetails,
   }) : super(key: key);
-
-  static const String routeName = '/';
 
   final String title;
   final NotificationAppLaunchDetails? notificationAppLaunchDetails;
